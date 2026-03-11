@@ -1,4 +1,3 @@
-
 // import NextAuth from 'next-auth'
 // import CredentialsProvider from 'next-auth/providers/credentials'
 // import connectDB from '@/lib/mongodb'
@@ -18,7 +17,6 @@
 //         if (!user) throw new Error('No user found with this email')
 //         const isValid = await user.comparePassword(credentials.password)
 //         if (!isValid) throw new Error('Invalid password')
-//         // Return **all fields needed in session**
 //         return {
 //           id: user._id.toString(),
 //           name: user.name,
@@ -57,11 +55,9 @@
 //   secret: process.env.NEXTAUTH_SECRET,
 // }
 
+// // ← Sirf handler export karo — authOptions nahi
 // const handler = NextAuth(authOptions)
 // export { handler as GET, handler as POST }
-
-
-
 
 
 
@@ -73,7 +69,8 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import connectDB from '@/lib/mongodb'
 import User from '@/models/User'
 
-export const authOptions = {
+// ❌ authOptions ko export mat karo
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -125,6 +122,6 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 }
 
-// ← Sirf handler export karo — authOptions nahi
+// ✅ App Router compatible handler export
 const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST }
