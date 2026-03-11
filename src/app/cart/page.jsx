@@ -62,7 +62,7 @@ export default function CartPage() {
   try {
     const orderData = {
       ...form,
-      items: cart.map(i => ({ product: i._id, name: i.name, price: i.price, quantity: i.quantity })),
+      items: cart.map(i => ({ product: i._id, name: i.name, price: i.price, quantity: i.quantity, image: i.image || '' })),
       totalAmount: cartTotal,
       paymentScreenshot: screenshotUrl || '',
       paymentStatus: isOnline ? 'submitted' : 'pending',

@@ -260,7 +260,6 @@
 
 
 
-
 import { useState } from 'react'
 
 const STATUS_COLORS = {
@@ -273,10 +272,10 @@ const STATUS_COLORS = {
 }
 
 const PAYMENT_STATUS_COLORS = {
-  pending:   { bg: 'bg-gray-100 dark:bg-gray-800',       text: 'text-gray-600 dark:text-gray-300' },
-  submitted: { bg: 'bg-blue-100 dark:bg-blue-900/30',    text: 'text-blue-600 dark:text-blue-300' },
-  verified:  { bg: 'bg-green-100 dark:bg-green-900/30',  text: 'text-green-600 dark:text-green-300' },
-  rejected:  { bg: 'bg-red-100 dark:bg-red-900/30',      text: 'text-red-600 dark:text-red-300' },
+  pending:   { bg: 'bg-gray-100 dark:bg-gray-800',      text: 'text-gray-600 dark:text-gray-300' },
+  submitted: { bg: 'bg-blue-100 dark:bg-blue-900/30',   text: 'text-blue-600 dark:text-blue-300' },
+  verified:  { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-600 dark:text-green-300' },
+  rejected:  { bg: 'bg-red-100 dark:bg-red-900/30',     text: 'text-red-600 dark:text-red-300' },
 }
 
 export default function OrdersTable({ orders, onUpdateStatus, onDelete }) {
@@ -350,10 +349,13 @@ export default function OrdersTable({ orders, onUpdateStatus, onDelete }) {
                   {/* Payment */}
                   <td className="px-4 py-3">
                     <div className="flex flex-col gap-1">
-                      <span className={`text-xs font-semibold px-2 py-1 ${order.paymentMethod === 'cod' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300' : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'}`}>
+                      <span className={`text-xs font-semibold px-2 py-1
+                        ${order.paymentMethod === 'cod'
+                          ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300'
+                          : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+                        }`}>
                         {order.paymentMethod?.toUpperCase()}
                       </span>
-                      {/* Payment Status Badge */}
                       {isOnline && (
                         <span className={`text-xs font-semibold px-2 py-1 ${pc.bg} ${pc.text}`}>
                           {order.paymentStatus?.toUpperCase() || 'PENDING'}
@@ -396,7 +398,7 @@ export default function OrdersTable({ orders, onUpdateStatus, onDelete }) {
                   <tr className="bg-[#FDF6EC] dark:bg-[#1A0F0A]">
                     <td colSpan={7} className="px-6 py-4 border-b border-yellow-700/20">
 
-                      <div className="mb-2 text-xs font-bold tracking-widest uppercase text-yellow-600 dark:text-yellow-300">
+                      <div className="mb-3 text-xs font-bold tracking-widest uppercase text-yellow-600 dark:text-yellow-300">
                         📦 Order Items — #{order._id.slice(-6).toUpperCase()}
                       </div>
 
@@ -404,11 +406,31 @@ export default function OrdersTable({ orders, onUpdateStatus, onDelete }) {
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
                         {order.items?.map((item, idx) => (
                           <div key={idx} className="bg-white dark:bg-[#2C1810] border border-yellow-700/15 p-3 flex items-center gap-3">
-                            <div className="text-3xl">🎂</div>
-                            <div className="flex-1 min-w-0">
-                              <div className="font-semibold text-sm text-[#2C1810] dark:text-yellow-200 truncate">{item.name}</div>
-                              <div className="text-xs text-[#8B5E3C] dark:text-yellow-400">Rs. {item.price?.toLocaleString()} × {item.quantity}</div>
+
+                            {/* Image / Emoji */}
+                            <div className="w-14 h-14 flex-shrink-0 overflow-hidden bg-gradient-to-br from-[#F5E6C0] to-[#E8C97A]">
+                              {item.image ? (
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-2xl">
+                                  {item.emoji || '🎂'}
+                                </div>
+                              )}
                             </div>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="font-semibold text-sm text-[#2C1810] dark:text-yellow-200 truncate">
+                                {item.name}
+                              </div>
+                              <div className="text-xs text-[#8B5E3C] dark:text-yellow-400">
+                                Rs. {item.price?.toLocaleString()} × {item.quantity}
+                              </div>
+                            </div>
+
                             <div className="font-bold text-sm text-[#2C1810] dark:text-yellow-200 whitespace-nowrap" style={{ fontFamily: 'Playfair Display, serif' }}>
                               Rs. {(item.price * item.quantity)?.toLocaleString()}
                             </div>
@@ -491,7 +513,6 @@ export default function OrdersTable({ orders, onUpdateStatus, onDelete }) {
 
                             {/* Verify Actions */}
                             <div className="flex-1">
-                              {/* Current Status */}
                               <div className="flex items-center gap-2 mb-3">
                                 <span className="text-xs text-[#8B5E3C] dark:text-yellow-400 font-semibold">
                                   Payment Status:
@@ -501,12 +522,10 @@ export default function OrdersTable({ orders, onUpdateStatus, onDelete }) {
                                 </span>
                               </div>
 
-                              {/* Method Info */}
                               <p className="text-sm text-[#2C1810] dark:text-yellow-200 mb-3">
                                 <span className="font-semibold">Method:</span> {order.paymentMethod?.toUpperCase()}
                               </p>
 
-                              {/* Action Buttons */}
                               {order.paymentStatus !== 'verified' && order.paymentStatus !== 'rejected' ? (
                                 <div className="flex gap-2 flex-wrap">
                                   <button
@@ -535,7 +554,6 @@ export default function OrdersTable({ orders, onUpdateStatus, onDelete }) {
                                         <span className="text-xl">❌</span>
                                         <span className="text-sm font-bold">Payment Rejected</span>
                                       </div>
-                                      {/* Re-verify option */}
                                       <button
                                         onClick={() => handlePaymentVerify(order._id, 'verified')}
                                         className="bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 border-none px-3 py-1.5 text-xs font-bold cursor-pointer hover:bg-green-500 hover:text-white transition-all w-fit"
