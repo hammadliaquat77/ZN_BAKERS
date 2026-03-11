@@ -69,8 +69,9 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import connectDB from '@/lib/mongodb'
 import User from '@/models/User'
 
-// ❌ authOptions ko export mat karo
-const authOptions = {
+
+    // const authOptions = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -98,7 +99,7 @@ const authOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
-        token.role = user.role
+        token.role = (user.role || 'user').toLowerCase();
         token.name = user.name
         token.phone = user.phone
       }
