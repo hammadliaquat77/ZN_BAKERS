@@ -147,7 +147,7 @@ export default function CartItems() {
               </button>
             </div>
           </div>
-
+{/*  */}
           {/* Total + Remove */}
           <div className="flex items-center justify-between w-full sm:w-auto mt-2 sm:mt-0 gap-2">
             <div
