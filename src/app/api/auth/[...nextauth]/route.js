@@ -1,3 +1,4 @@
+
 // import NextAuth from 'next-auth'
 // import CredentialsProvider from 'next-auth/providers/credentials'
 // import connectDB from '@/lib/mongodb'
@@ -17,6 +18,7 @@
 //         if (!user) throw new Error('No user found with this email')
 //         const isValid = await user.comparePassword(credentials.password)
 //         if (!isValid) throw new Error('Invalid password')
+//         // Return **all fields needed in session**
 //         return {
 //           id: user._id.toString(),
 //           name: user.name,
@@ -30,16 +32,20 @@
 //   callbacks: {
 //     async jwt({ token, user }) {
 //       if (user) {
-//         token.role = user.role
 //         token.id = user.id
-//          token.phone = user.phone
+//         token.role = user.role
+//         token.name = user.name
+//         token.phone = user.phone
 //       }
 //       return token
 //     },
 //     async session({ session, token }) {
-//       session.user.role = token.role
-//       session.user.id = token.id
-//        token.phone = user.phone
+//       if (token) {
+//         session.user.id = token.id
+//         session.user.role = token.role
+//         session.user.name = token.name
+//         session.user.phone = token.phone
+//       }
 //       return session
 //     },
 //   },
@@ -53,6 +59,9 @@
 
 // const handler = NextAuth(authOptions)
 // export { handler as GET, handler as POST }
+
+
+
 
 
 
@@ -78,7 +87,6 @@ export const authOptions = {
         if (!user) throw new Error('No user found with this email')
         const isValid = await user.comparePassword(credentials.password)
         if (!isValid) throw new Error('Invalid password')
-        // Return **all fields needed in session**
         return {
           id: user._id.toString(),
           name: user.name,
@@ -117,5 +125,6 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 }
 
+// ← Sirf handler export karo — authOptions nahi
 const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST }
