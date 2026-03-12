@@ -88,8 +88,8 @@ export async function GET() {
     const dbName = mongoose.connection.db?.databaseName || 'unknown'
     console.log('Connected to DB:', dbName)
 
-    const adminEmail = process.env.ADMIN_EMAIL
-    const adminPassword = process.env.ADMIN_PASSWORD
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@znbakers.pk'
+    const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123456'
 
     await User.deleteOne({ email: adminEmail })
 
