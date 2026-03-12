@@ -79,23 +79,24 @@
 import { NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import User from '@/models/User'
-
+import mongoose from 'mongoose'
 
 export async function GET() {
   try {
     await connectDB()
-    
-    // Connection test
-    const dbName = mongoose.connection.db.databaseName
+
+    const dbName = mongoose.connection.db?.databaseName || 'unknown'
     console.log('Connected to DB:', dbName)
-    
+
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@znbakers.pk'
+    const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123456'
+
     await User.deleteOne({ email: adminEmail })
-    
+
     const admin = await User.create({
       name: 'ZN Admin',
       email: adminEmail,
-      password: process.env.ADMIN_PASSWORD || 'Admin@123456',
+      password: adminPassword,
       role: 'admin',
     })
 
@@ -103,7 +104,7 @@ export async function GET() {
       message: '✅ Admin created successfully!',
       adminEmail: admin.email,
       adminId: admin._id,
-      database: dbName, // ← yeh batayega konsa DB use ho raha hai
+      database: dbName,
     })
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 })
