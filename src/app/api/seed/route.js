@@ -2,55 +2,18 @@
 // import { NextResponse } from 'next/server'
 // import connectDB from '@/lib/mongodb'
 // import User from '@/models/User'
+// import mongoose from 'mongoose'
 
 // export async function GET() {
 //   try {
 //     await connectDB()
 
-//     // Sirf admin create karo agar exist nahi karta
-//     const adminExists = await User.findOne({
-//       email: process.env.ADMIN_EMAIL || 'admin@znbakers.pk'
-//     })
+//     const dbName = mongoose.connection.db?.databaseName || 'unknown'
+//     console.log('Connected to DB:', dbName)
 
-//     if (!adminExists) {
-//       await User.create({
-//         name: 'ZN Admin',
-//         email: process.env.ADMIN_EMAIL || 'admin@znbakers.pk',
-//         password: process.env.ADMIN_PASSWORD || 'Admin@123456',
-//         role: 'admin',
-//       })
-//     }
+//     const adminEmail = process.env.ADMIN_EMAIL
+//     const adminPassword = process.env.ADMIN_PASSWORD
 
-//     return NextResponse.json({
-//       message: '✅ Admin account ready!',
-//       adminEmail: process.env.ADMIN_EMAIL || 'admin@znbakers.pk',
-//       note: adminExists ? 'Admin already existed' : 'Admin created successfully',
-//     })
-//   } catch (err) {
-//     return NextResponse.json({ error: err.message }, { status: 500 })
-//   }
-// }
-
-
-
-
-
-
-
-
-
-// import { NextResponse } from 'next/server'
-// import connectDB from '@/lib/mongodb'
-// import User from '@/models/User'
-
-// export async function GET() {
-//   try {
-//     await connectDB()
-
-//     const adminEmail = process.env.ADMIN_EMAIL || 'admin@znbakers.pk'
-//     const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123456'
-
-//     // Pehle delete karo — phir fresh create karo
 //     await User.deleteOne({ email: adminEmail })
 
 //     const admin = await User.create({
@@ -64,6 +27,7 @@
 //       message: '✅ Admin created successfully!',
 //       adminEmail: admin.email,
 //       adminId: admin._id,
+//       database: dbName,
 //     })
 //   } catch (err) {
 //     return NextResponse.json({ error: err.message }, { status: 500 })
@@ -76,21 +40,40 @@
 
 
 
+
+
 import { NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import User from '@/models/User'
 import mongoose from 'mongoose'
 
-export async function GET() {
+export async function GET(request) {
+
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Not allowed' }, { status: 403 })
+  }
+
+  const { searchParams } = new URL(request.url)
+  const secret = searchParams.get('secret')
+  
+  if (secret !== process.env.SEED_SECRET) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     await connectDB()
 
+    const adminEmail = process.env.ADMIN_EMAIL
+    const adminPassword = process.env.ADMIN_PASSWORD
+
+    if (!adminEmail || !adminPassword) {
+      return NextResponse.json(
+        { error: 'Credentials not set in env' },
+        { status: 500 }
+      )
+    }
+
     const dbName = mongoose.connection.db?.databaseName || 'unknown'
-    console.log('Connected to DB:', dbName)
-
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@znbakers.pk'
-    const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123456'
-
     await User.deleteOne({ email: adminEmail })
 
     const admin = await User.create({
