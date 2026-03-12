@@ -7,7 +7,7 @@ const ProductSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   category: {
     type: String,
-    enum: ['cake', 'bread', 'dessert', 'pastry', 'juice', 'cookies & biscuits', 'savory snacks', 'fast food', 'beverages', 'cupcakes', 'brownies'],
+    enum: [ 'cake', 'bread', 'dessert', 'pastry', 'juice', 'cookies-biscuits', 'savory-snacks', 'fast-food', 'beverages', 'cupcakes', 'brownies' ],
     required: true,
   },
   image: {

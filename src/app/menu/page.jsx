@@ -188,12 +188,42 @@ import { useState, useEffect } from 'react'
 import { useCart } from '@/components/CartContext'
 import Link from 'next/link'
 
-const CATEGORIES = ['all', 'cake', 'bread', 'dessert', 'pastry']
+// const CATEGORIES = ['all', 'cake', 'bread', 'dessert', 'pastry']
+// const gradients = {
+//   cake: 'from-[#F5E6C0] to-[#E8C97A]',
+//   bread: 'from-[#EDD9A3] to-[#C9954C]',
+//   dessert: 'from-[#F9E4D4] to-[#E8A87C]',
+//   pastry: 'from-[#F0E6D3] to-[#D4A57A]',
+// }
+
+
+const CATEGORIES = [
+  'all',
+  'cake',
+  'bread',
+  'dessert',
+  'pastry',
+  'juice',
+  'cookies-biscuits',
+  'savory-snacks',
+  'fast-food',
+  'beverages',
+  'cupcakes',
+  'brownies'
+]
+
 const gradients = {
   cake: 'from-[#F5E6C0] to-[#E8C97A]',
   bread: 'from-[#EDD9A3] to-[#C9954C]',
   dessert: 'from-[#F9E4D4] to-[#E8A87C]',
   pastry: 'from-[#F0E6D3] to-[#D4A57A]',
+  juice: 'from-[#FFE5B4] to-[#FFA07A]',
+  'cookies-biscuits': 'from-[#F3D5B5] to-[#C89F7B]',
+  'savory-snacks': 'from-[#F5CBA7] to-[#D98880]',
+  'fast-food': 'from-[#F8C471] to-[#E67E22]',
+  beverages: 'from-[#D6EAF8] to-[#5DADE2]',
+  cupcakes: 'from-[#FADBD8] to-[#F1948A]',
+  brownies: 'from-[#D7BDE2] to-[#8E44AD]'
 }
 
 export default function MenuPage() {
