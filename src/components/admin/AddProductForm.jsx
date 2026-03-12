@@ -531,7 +531,7 @@ export default function AddProductForm({ onAdd }) {
               onChange={handleChange}
               className="w-full px-4 py-3 bg-[#FDF6EC] dark:bg-[#1A0F0A] border border-yellow-700/30 text-[#2C1810] dark:text-[#F5E6C0] text-sm outline-none focus:border-yellow-500"
             >
-              {['cake', 'bread', 'dessert', 'pastry'].map(c => (
+              {[ 'cake', 'bread', 'dessert', 'pastry', 'juice', 'cookies & biscuits', 'savory snacks', 'fast food', 'beverages', 'cupcakes', 'brownies' ].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
