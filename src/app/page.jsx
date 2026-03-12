@@ -3,7 +3,10 @@ import Link from 'next/link'
 import connectDB from '@/lib/mongodb'
 import Product from '@/models/Product'
 import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
+
+
+export const revalidate = 0
 
 async function getFeaturedProducts() {
   try {
@@ -80,12 +83,6 @@ export default async function HomePage() {
           {featured.length === 0 ? (
             <div className="text-center py-12 text-[#8B5E3C] dark:text-yellow-200/60">
               <p className="text-lg mb-4">No products yet.</p>
-              <a
-                href="/api/seed"
-                className="bg-[#C9A84C] text-[#2C1810] px-6 py-3 no-underline font-semibold hover:bg-yellow-400 transition-colors inline-block"
-              >
-                Seed Sample Products →
-              </a>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
