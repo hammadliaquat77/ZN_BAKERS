@@ -919,6 +919,7 @@ export default function CustomOrderPage() {
         ...prev,
         customerName: session.user.name || prev.customerName,
         customerEmail: session.user.email || prev.customerEmail,
+        customerPhone: session.user.phone || prev.customerPhone,
         userId: session.user.id || session.user.email || '',
       }))
     }

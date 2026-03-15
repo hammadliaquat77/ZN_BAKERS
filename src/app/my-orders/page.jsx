@@ -65,10 +65,26 @@ export default function OrdersPage() {
   const [expandedCustom, setExpandedCustom] = useState(null)
   const [activeTab, setActiveTab] = useState('regular')
 
+  // useEffect(() => {
+  //   if (status === 'unauthenticated') router.push('/login')
+  //   if (status === 'authenticated') fetchOrders()
+  // }, [status])
+
   useEffect(() => {
-    if (status === 'unauthenticated') router.push('/login')
-    if (status === 'authenticated') fetchOrders()
-  }, [status])
+  if (status === 'unauthenticated') router.push('/login')
+  if (status === 'authenticated') {
+    fetchOrders()
+    
+    // ←10 second mein refresh
+    const interval = setInterval(() => {
+      fetchOrders()
+    }, 20000) // 20 seconds
+    
+    return () => clearInterval(interval) // cleanup
+  }
+}, [status])
+
+
 
   async function fetchOrders() {
     setLoading(true)
