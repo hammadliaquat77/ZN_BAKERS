@@ -269,7 +269,7 @@ export default function MenuPage() {
 
       {/* Filter Tabs */}
       <div className="bg-white dark:bg-[#2C1810] border-b border-yellow-700/20 transition-colors duration-300 overflow-x-auto">
-        <div className="flex gap-2 sm:gap-3 px-5 py-4 sm:py-5 justify-start sm:justify-center min-w-max sm:min-w-full">
+        <div className="flex flex-wrap gap-2 sm:gap-3 px-5 py-4 sm:py-5 justify-start sm:justify-center min-w-max sm:min-w-full">
           {CATEGORIES.map(cat => (
             <button
               key={cat}
@@ -295,9 +295,6 @@ export default function MenuPage() {
         ) : products.length === 0 ? (
           <div className="text-center py-16 text-[#8B5E3C] dark:text-[#C9A84C]">
             <p className="text-base sm:text-lg mb-4">No products found.</p>
-            <a href="/api/seed" className="bg-[#C9A84C] text-[#2C1810] px-4 sm:px-6 py-2 sm:py-3 font-semibold inline-block no-underline">
-              Seed Products →
-            </a>
           </div>
         ) : (
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
