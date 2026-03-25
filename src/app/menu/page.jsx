@@ -188,6 +188,9 @@ import { useState, useEffect } from 'react'
 import { useCart } from '@/components/CartContext'
 import Link from 'next/link'
 
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
 // const CATEGORIES = ['all', 'cake', 'bread', 'dessert', 'pastry']
 // const gradients = {
 //   cake: 'from-[#F5E6C0] to-[#E8C97A]',
@@ -227,6 +230,14 @@ const gradients = {
 }
 
 export default function MenuPage() {
+
+  AOS.init({
+          duration: 1000,
+          once: false,
+          mirror: true,
+      });
+
+
   const [products, setProducts] = useState([])
   const [category, setCategory] = useState('all')
   const [loading, setLoading] = useState(true)
@@ -301,7 +312,8 @@ export default function MenuPage() {
             {products.map(product => (
 
               // ── Clickable Card → Product Detail ──
-              <Link
+              <Link 
+                data-aos="fade-right"
                 key={product._id}
                 href={`/product/${product._id}`}
                 className="no-underline block group"
