@@ -4,7 +4,8 @@ import connectDB from '@/lib/mongodb'
 import Product from '@/models/Product'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
-
+import Hero from "@/components/Home/Hero"
+import ScrollToTop from "@/components/Home/ScrollToTop"
 
 
 
@@ -27,7 +28,7 @@ export default async function HomePage() {
     <div className="bg-white dark:bg-[#1A0F0A] transition-colors duration-300">
 
       {/* ── HERO ── */}
-      <section className="min-h-screen bg-gradient-to-br from-[#2C1810] via-[#5C3317] to-[#3D1F0E] flex items-center px-[5%] relative overflow-hidden">
+      {/* <section className="min-h-screen bg-gradient-to-br from-[#2C1810] via-[#5C3317] to-[#3D1F0E] flex items-center px-[5%] relative overflow-hidden">
         <div className="relative z-10 max-w-[600px] pt-[72px]">
 
           <div className="inline-block border border-[#C9A84C] text-[#C9A84C] text-[0.7rem] font-semibold tracking-[3px] uppercase px-4 py-1.5 mb-8">
@@ -63,6 +64,9 @@ export default async function HomePage() {
 
         </div>
       </section>
+       */}
+       <Hero />    
+       <ScrollToTop />
 
       {/* ── FEATURED PRODUCTS ── */}
       <section className="py-[100px] px-[5%] bg-white dark:bg-[#120A07] transition-colors duration-300">
@@ -238,7 +242,6 @@ function ProductCard({ product }) {
           </Link>
         </div>
       </div>
-
     </div>
   )
 }
